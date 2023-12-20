@@ -1,5 +1,6 @@
 package bs.reptile.baidu;
 
+import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -37,7 +38,8 @@ public class HttpClientTest {
 
     public void getInfo() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("https://www.baidu.com/");
+        HttpGet httpGet = new HttpGet("https://www.taobao.com/");
+        httpGet.setHeader("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36");
         CloseableHttpResponse response = null;
         try {
             response = httpClient.execute(httpGet);

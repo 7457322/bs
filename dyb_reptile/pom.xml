@@ -15,6 +15,7 @@
 
     <modules>
         <module>bs.reptile.baidu</module>
+        <module>bs.reptile.database</module>
     </modules>
 
     <dependencyManagement>
