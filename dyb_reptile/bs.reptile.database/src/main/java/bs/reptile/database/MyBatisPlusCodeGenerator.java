@@ -23,17 +23,17 @@ import java.util.Map;
 public class MyBatisPlusCodeGenerator {
     //region 常量
     //数据库链接地址**/
-    private static final String JDBC_URL_MAN = "jdbc:mysql://127.0.0.1:3306/myDatabase?useUnicode=true&characterEncoding=UTF-8";
+    private static final String JDBC_URL_MAN = "jdbc:mysql://8.218.116.162:3306/reptile?useUnicode=true&characterEncoding=UTF-8";
     //数据库登录账号**/
     private static final String JDBC_UserName = "root";
     //数据库登录密码**/
-    private static final String JDBC_Password = "root1234";
+    private static final String JDBC_Password = "7457322";
     /**
      * 【需要修改】
      * 需要进行生成文件的表名
      *          多张表，表名间使用,号分割
      **/
-    private static final String[] Tables = {"user_table"};
+    private static final String[] Tables = {"image"};
     /**
      * 【需要修改】
      * 生成类的注释
