@@ -278,8 +278,10 @@ public class MyBatisPlusCodeGenerator {
         //自定义实体信息
         generator.injection(initInjectionConfig());
 
-        generator.execute();
-//        generator.execute(yaoVelocityTemplateEngine);
+        //自定义模板解析器
+        TimerVelocityTemplateEngine timerVelocityTemplateEngine = new TimerVelocityTemplateEngine();
 
+        //生成代码
+        generator.execute(timerVelocityTemplateEngine);
     }
 }

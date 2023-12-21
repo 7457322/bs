@@ -9,13 +9,13 @@
     </parent>
 
     <groupId>bs.reptile</groupId>
-    <artifactId>bs.reptile</artifactId>
+    <artifactId>bs-reptile</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>bs.reptile.baidu</module>
-        <module>bs.reptile.database</module>
+        <module>bs-reptile-baidu</module>
+        <module>bs-reptile-database</module>
     </modules>
 
     <dependencyManagement>
