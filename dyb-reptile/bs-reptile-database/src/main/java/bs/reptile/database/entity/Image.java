@@ -1,4 +1,4 @@
-package com.jd.timer.bin.user.dao.build.entity;
+package bs.reptile.database.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -13,8 +13,8 @@ import lombok.experimental.Accessors;
  * 图片
  * </p>
  *
- * @author timerbin
- * @since 2023-12-21 10:54:19
+ * @author dyb
+ * @since 2023-12-21 05:11:55
  */
 @Getter
 @Setter

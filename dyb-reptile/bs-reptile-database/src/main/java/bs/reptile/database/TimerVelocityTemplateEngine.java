@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
-import com.sun.istack.internal.NotNull;
+
 
 import java.io.File;
 import java.util.List;
@@ -32,7 +32,7 @@ public class TimerVelocityTemplateEngine extends VelocityTemplateEngine {
     /**
      * 首字母转为小写
      */
-    private String toLowerCaseFirstOne(@NotNull String name) {
+    private String toLowerCaseFirstOne(String name) {
         if (Character.isLowerCase(name.charAt(0))) return name;
         return Character.toLowerCase(name.charAt(0)) + name.substring(1);
     }

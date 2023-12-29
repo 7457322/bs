@@ -11,8 +11,8 @@ import java.util.Date;
  *      基础设施层请求实体
  * </p>
  *
- * @author timerbin
- * @since 2023-12-21 10:54:19
+ * @author dyb
+ * @since 2023-12-21 05:11:55
  */
 @Getter
 @Setter

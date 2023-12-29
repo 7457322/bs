@@ -1,6 +1,6 @@
-package com.jd.timer.bin.user.dao.build.mapper;
+package bs.reptile.database.mapper;
 
-import com.jd.timer.bin.user.dao.build.entity.Image;
+import bs.reptile.database.entity.Image;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,8 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
  * 图片 Mapper 接口
  * </p>
  *
- * @author timerbin
- * @since 2023-12-21 10:54:19
+ * @author dyb
+ * @since 2023-12-21 05:11:55
  */
 @Mapper
 public interface ImageMapper extends BaseMapper<Image> {

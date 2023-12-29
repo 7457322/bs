@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MyBatisPlusCodeGenerator {
+//    static bs.common.Config config=bs.common.Config.getCurrent();
     //region 常量
     //数据库链接地址**/
     private static final String JDBC_URL_MAN = "jdbc:mysql://8.218.116.162:3306/reptile?useUnicode=true&characterEncoding=UTF-8";
@@ -39,23 +40,23 @@ public class MyBatisPlusCodeGenerator {
      * 生成类的注释
      * 作者名称
      */
-    private static final String CODE_AUTHOR = "timerbin";
+    private static final String CODE_AUTHOR = "dyb";
     /**
      * 生成的文件存放地址 之
      *      文件路径
      */
-    private static final String FILE_STORAGE_FILE_ROOT_PATH = System.getProperty("user.dir") + "/user-obj/user-obj-dao/src/test/java/";
+    private static final String FILE_STORAGE_FILE_ROOT_PATH = System.getProperty("user.dir") + "/bs-reptile-database/src/main/java";
     /**
      *  生成的文件存放地址 之
      *      父级 jar包路径
      */
-    private static final String FILE_STORAGE_FILE_JAR_PACKAGE = "com.jd.timer.bin.user.dao";
+    private static final String FILE_STORAGE_FILE_JAR_PACKAGE = "bs.reptile";
     /**
      *
      *  生成的文件存放地址 之
      *      模块 jar包名称
      */
-    private static final String FILE_STORAGE_FILE_JAR_PACKAGE_MODULE = "build";
+    private static final String FILE_STORAGE_FILE_JAR_PACKAGE_MODULE = "database";
     /**
      *  生成的文件存放地址 之
      *      Service 接口 存放地址
