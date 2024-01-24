@@ -1,4 +1,4 @@
-package ${package.Other}.po;
+package bs.reptile.database.po;
 
 import lombok.Getter;
 import lombok.Setter;

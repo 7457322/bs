@@ -6,7 +6,6 @@
     <properties>
         <java-version>1.8</java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mavenrespository>file://F:/projects/maven/repository</mavenrespository>
 
         <velocity.version>2.3</velocity.version>
         <mybatis.version>3.5.13</mybatis.version>
@@ -14,6 +13,7 @@
         <projectlombok.version>1.18.28</projectlombok.version>
         <mysql.version>8.0.33</mysql.version>
         <slf4j.version>2.0.5</slf4j.version>
+        <httpcomponents.version>4.5.14</httpcomponents.version>
         <dom4j.version>1.6.1</dom4j.version>
         <jaxen.version>1.1.1</jaxen.version>
         <plexusutils.version>3.0.8</plexusutils.version>
@@ -21,10 +21,11 @@
 
     <groupId>bs</groupId>
     <artifactId>bs</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <modules>
         <module>bs-common</module>
+        <module>bs-parent</module>
     </modules>
 
     <dependencies>
@@ -70,6 +71,12 @@
             <artifactId>slf4j-reload4j</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <!-- http组件 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpcomponents.version}</version>
+        </dependency>
         <!-- XMLDom操作类 -->
         <dependency>
             <groupId>dom4j</groupId>
@@ -88,143 +95,15 @@
             <artifactId>plexus-utils</artifactId>
             <version>${plexusutils.version}</version>
         </dependency>
-        <!-- 公共操作类 -->
-        <dependency>
-            <groupId>bs.common</groupId>
-            <artifactId>bs-common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
     </dependencies>
 
-    <!--聚合依懒-->
-    <dependencyManagement>
-        <dependencies>
-            <!-- IDE 扩展标签 -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${projectlombok.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- Mysql驱动包 -->
-            <dependency>
-                <groupId>com.mysql</groupId>
-                <artifactId>mysql-connector-j</artifactId>
-                <version>${mysql.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- mybatis数据库生成操作类 -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-generator</artifactId>
-                <version>${baomidou.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- mybatis数据库插件操作类 -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus</artifactId>
-                <version>${baomidou.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- mybatis数据库操作类 -->
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>${mybatis.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- 模板引擎操作类 mybatis数据库生成 被依懒 -->
-            <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity-engine-core</artifactId>
-                <version>${velocity.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- 日志操作类 -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-reload4j</artifactId>
-                <version>${slf4j.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- XMLDom操作类 -->
-            <dependency>
-                <groupId>dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>${dom4j.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- XMLPath操作类 -->
-            <dependency>
-                <groupId>jaxen</groupId>
-                <artifactId>jaxen</artifactId>
-                <version>${jaxen.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- 公共操作类 -->
-            <dependency>
-                <groupId>org.codehaus.plexus</groupId>
-                <artifactId>plexus-utils</artifactId>
-                <version>${plexusutils.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <!--    <build>-->
-    <!--        &lt;!&ndash; mvn versions:set -DnewVersion=1.1.9.7 versions:commit &ndash;&gt;-->
-    <!--        <plugins>-->
-    <!--            <plugin>-->
-    <!--                &lt;!&ndash; 指定maven编译的jdk版本,如果不指定,maven3默认用jdk 1.5 maven2默认用jdk1.3 &ndash;&gt;-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
-    <!--                <version>3.8.1</version>-->
-    <!--                <configuration>-->
-    <!--                    &lt;!&ndash; 一般而言，target与source是保持一致的，但是，有时候为了让程序能在其他版本的jdk中运行(对于低版本目标jdk，源代码中不能使用低版本jdk中不支持的语法)，会存在target不同于source的情况 &ndash;&gt;-->
-    <!--                    <source>${java-version}</source> &lt;!&ndash; 源代码使用的JDK版本 &ndash;&gt;-->
-    <!--                    <target>${java-version}</target> &lt;!&ndash; 需要生成的目标class文件的编译版本 &ndash;&gt;-->
-    <!--                    <encoding>UTF-8</encoding>&lt;!&ndash; 字符集编码 &ndash;&gt;-->
-    <!--                    <verbose>true</verbose>-->
-    <!--                    <showWarnings>true</showWarnings>-->
-    <!--                    &lt;!&ndash;                    <fork>true</fork>&lt;!&ndash; 要使compilerVersion标签生效，还需要将fork设为true，用于明确表示编译版本配置的可用 &ndash;&gt;&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                    <executable>&lt;!&ndash; path-to-javac &ndash;&gt;</executable>&lt;!&ndash; 使用指定的javac命令，例如：<executable>${JAVA_1_4_HOME}/bin/javac</executable> &ndash;&gt;&ndash;&gt;-->
-    <!--                    &lt;!&ndash;                    <compilerVersion>1.3</compilerVersion>&lt;!&ndash; 指定插件将使用的编译器的版本 &ndash;&gt;&ndash;&gt;-->
-    <!--                    <meminitial>128m</meminitial>&lt;!&ndash; 编译器使用的初始内存 &ndash;&gt;-->
-    <!--                    <maxmem>512m</maxmem>&lt;!&ndash; 编译器使用的最大内存 &ndash;&gt;-->
-    <!--                </configuration>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.apache.maven.plugins</groupId>-->
-    <!--                <artifactId>maven-source-plugin</artifactId>-->
-    <!--                <version>3.3.0</version>-->
-    <!--                <configuration>-->
-    <!--                    <attach>true</attach>-->
-    <!--                </configuration>-->
-    <!--                <executions>-->
-    <!--                    <execution>-->
-    <!--                        <phase>compile</phase>-->
-    <!--                        <goals>-->
-    <!--                            <goal>jar</goal>-->
-    <!--                        </goals>-->
-    <!--                    </execution>-->
-    <!--                </executions>-->
-    <!--            </plugin>-->
-    <!--            <plugin>-->
-    <!--                <groupId>org.codehaus.mojo</groupId>-->
-    <!--                <artifactId>versions-maven-plugin</artifactId>-->
-    <!--                <version>2.16.0</version>-->
-    <!--            </plugin>-->
-    <!--        </plugins>-->
-    <!--    </build>-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

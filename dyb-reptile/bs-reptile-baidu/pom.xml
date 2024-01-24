@@ -7,23 +7,11 @@
     <artifactId>bs-reptile-baidu</artifactId>
     <version>1.0.0</version>
 
-<!--    <parent>-->
-<!--        <groupId>bs</groupId>-->
-<!--        <artifactId>bs</artifactId>-->
-<!--        <version>1.0.0</version>-->
-<!--    </parent>-->
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>bs</groupId>
-                <artifactId>bs</artifactId>
-                <version>1.0.0</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <parent>
+        <groupId>bs.reptile</groupId>
+        <artifactId>bs-reptile</artifactId>
+        <version>1.0.0</version>
+    </parent>
 
 <!--    <dependencies>-->
 <!--        &lt;!&ndash; IDE 扩展标签 &ndash;&gt;-->
