@@ -5,9 +5,9 @@
     <packaging>pom</packaging>
 
     <parent>
-        <artifactId>bs</artifactId>
-        <groupId>bs</groupId>
-        <version>1.0.1</version>
+        <groupId>bs.win</groupId>
+        <artifactId>bs-win</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>bs.reptile</groupId>

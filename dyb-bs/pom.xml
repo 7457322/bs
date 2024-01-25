@@ -6,6 +6,7 @@
     <properties>
         <java-version>1.8</java-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version>1.0.1-SNAPSHOT</version>
 
         <velocity.version>2.3</velocity.version>
         <mybatis.version>3.5.13</mybatis.version>
@@ -16,16 +17,17 @@
         <httpcomponents.version>4.5.14</httpcomponents.version>
         <dom4j.version>1.6.1</dom4j.version>
         <jaxen.version>1.1.1</jaxen.version>
+        <jsoup.version>1.16.1</jsoup.version>
         <plexusutils.version>3.0.8</plexusutils.version>
     </properties>
 
     <groupId>bs</groupId>
     <artifactId>bs</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>${version}</version>
 
     <modules>
         <module>bs-common</module>
-        <module>bs-parent</module>
+        <module>bs-win</module>
     </modules>
 
     <dependencies>
@@ -88,6 +90,12 @@
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
             <version>${jaxen.version}</version>
+        </dependency>
+        <!-- HtmlDom操作类 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
         <!-- 公共操作类 -->
         <dependency>
