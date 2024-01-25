@@ -7,10 +7,11 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.io.SAXReader;
 
 import javax.swing.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.ByteArrayInputStream;
@@ -44,7 +45,16 @@ public class HttpClientTest {
 //        String html = getUrl("https://www.taobao.com/");
 //        taText.setText(html);
         Document document = loadFile("E:\\projects\\Doc\\test.html");
-
+//获取DocumentBuilder
+//        try {
+//            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+//            //需要解析html
+//            org.w3c.dom.Document document = documentBuilder.parse(new ByteArrayInputStream(html.getBytes()));
+//            System.out.println(document.getDocumentElement().get("span").item(0).getAttributes().getNamedItem("attendee-id").getNodeValue());
+//            System.out.println(document.getElementsByTagName("div").item(0).getTextContent());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     public String getUrl(String url) {
