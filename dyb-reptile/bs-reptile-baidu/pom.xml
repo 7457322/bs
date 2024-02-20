@@ -15,4 +15,49 @@
 
     <dependencies>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.github.fvarrui</groupId>
+                <artifactId>javapackager</artifactId>
+                <version>1.6.6</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 启动类 -->
+                            <mainClass>Main</mainClass>
+                            <!-- 绑定自定义JRE路径-->
+                            <bundleJre>true</bundleJre>
+                            <jrePath>D:\Java</jrePath>
+                            <generateInstaller>true</generateInstaller>
+                            <administratorRequired>false</administratorRequired>
+                            <!-- 操作系统-->
+                            <platform>windows</platform>
+                            <copyDependencies>true</copyDependencies>
+                            <!-- 名称与版本-->
+                            <displayName>小虫子dn</displayName>
+                            <name>小虫子n</name>
+                            <version>1</version>
+                            <!-- 手动引入额外资源-->
+                            <additionalResources>
+                                <additionalResource>项目需要的其它资源</additionalResource>
+                            </additionalResources>
+                            <!--详细参数配置-->
+                            <winConfig>
+                                <icoFile>软件图标路径</icoFile>
+                                <generateSetup>false</generateSetup>
+                                <generateMsi>false</generateMsi>
+                                <generateMsm>false</generateMsm>
+                            </winConfig>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

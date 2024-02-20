@@ -8,6 +8,5 @@ public class Main {
 
         //指定窗口位置
         frame.run();
-
     }
 }

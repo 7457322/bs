@@ -1,5 +1,10 @@
 package bs.common;
 
+import org.dom4j.Document;
+import org.dom4j.io.SAXReader;
+
+import java.io.ByteArrayInputStream;
+
 public class ComXml {
     public static Document loadFile(String file) {
         SAXReader sr = new SAXReader();
@@ -13,7 +18,7 @@ public class ComXml {
     }
 
     public static Document load(String xml) {
-        return loadHtml(html, "UTF-8");
+        return load(xml, "UTF-8");
     }
 
     public static Document load(String html, String encode) {

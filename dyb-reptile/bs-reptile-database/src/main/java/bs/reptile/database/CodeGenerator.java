@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MyBatisPlusCodeGenerator {
+public class CodeGenerator {
 //    static bs.common.Config config=bs.common.Config.getCurrent();
     //region 常量
     //数据库链接地址**/

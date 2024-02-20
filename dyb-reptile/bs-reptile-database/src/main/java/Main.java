@@ -1,9 +1,9 @@
-import bs.reptile.database.MyBatisPlusCodeGenerator;
+import bs.reptile.database.CodeGenerator;
 
 public class Main {
     public static void main(String[] args) {
 
-        MyBatisPlusCodeGenerator.init();
+        CodeGenerator.init();
 
     }
 }

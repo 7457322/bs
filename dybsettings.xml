@@ -24,13 +24,11 @@
 
     <mirrors>
         <mirror>
-            <id>nexus</id>
-            <name>huaweicloud maven</name>
-            <mirrorOf>*</mirrorOf>
-            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+            <id>aliyun-nexus</id>
+            <name>阿里云公库</name>
+            <mirrorOf>central,jcenter,!rdc-releases,!rdc-snapshots</mirrorOf>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
         </mirror>
-
-
         <mirror>
             <id>nexus-ali</id>
             <mirrorOf>*</mirrorOf>
@@ -38,6 +36,12 @@
             <url>https://maven.aliyun.com/repository/public</url>
         </mirror>
 
+        <mirror>
+            <id>nexus</id>
+            <name>huaweicloud maven</name>
+            <mirrorOf>*</mirrorOf>
+            <url>https://mirrors.huaweicloud.com/repository/maven/</url>
+        </mirror>
 
         <mirror>
             <id>nexus-163</id>
@@ -50,14 +54,6 @@
             <mirrorOf>*</mirrorOf>
             <name>Nexus tencentyun</name>
             <url>http://mirrors.cloud.tencent.com/nexus/repository/maven-public/</url>
-        </mirror>
-
-
-        <mirror>
-            <id>aliyun-nexus</id>
-            <name>阿里云公库</name>
-            <mirrorOf>central,jcenter,!rdc-releases,!rdc-snapshots</mirrorOf>
-            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
         </mirror>
 
         <mirror>
