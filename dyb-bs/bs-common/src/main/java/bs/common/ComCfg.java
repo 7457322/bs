@@ -17,15 +17,20 @@ public class ComCfg {
 
     //当前实例
     static ComCfg current = new ComCfg();
+    //运行目录
     static String runPath = "";
+    //调用目录
+    static String callPath = "";
 
     //静态构造函数
     static {
-        //程序运行目录
+        //运行目录
         URL resource = current.getClass().getClassLoader().getResource("");
         runPath = resource.getPath()
                 .replaceFirst("\\/", "")
                 .replaceAll("\\\\/", "\\");
+        //调用目录
+        callPath= System.getProperty("user.dir")+"\\";
         //加载配置
         load(runPath + filename);
     }
@@ -74,6 +79,11 @@ public class ComCfg {
     //读取运行路径(结尾带\\)
     public static String getRunPath() {
         return runPath;
+    }
+
+    //读取调用路径(结尾带\\)，比如：shell命令文件所在目录等等
+    public static String getCallPath() {
+        return callPath;
     }
     //endregion
 

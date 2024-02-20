@@ -1,9 +1,8 @@
-import bs.reptile.database.CodeGenerator;
+import bs.common.ComCfg;
+import bs.reptile.database.ComDbCodeGenerator;
 
 public class Main {
     public static void main(String[] args) {
-
-        CodeGenerator.init();
-
+        ComDbCodeGenerator.output(ComCfg.getCallPath().replaceFirst("[^\\\\]+\\\\$","")+"bs-reptile-database\\src\\main\\java");
     }
 }

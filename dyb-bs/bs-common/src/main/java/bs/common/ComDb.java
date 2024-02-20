@@ -27,7 +27,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.util.Enumeration;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
@@ -187,4 +191,38 @@ public class ComDb {
             }
         }
     }
+
+    public static List<Map<String, Object>> executeSql(String sql){
+        ComLog.info("执行查询sql:"+sql);
+        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+        run(session->{
+            PreparedStatement pst = null;
+            ResultSet result = null;
+            try {
+                pst = session.getConnection().prepareStatement(sql);
+                result = pst.executeQuery();
+                ResultSetMetaData md = result.getMetaData(); //获得结果集结构信息,元数据
+                int columnCount = md.getColumnCount();   //获得列数
+                while (result.next()) {
+                    Map<String,Object> rowData = new HashMap<String,Object>();
+                    for (int i = 1; i <= columnCount; i++) {
+                        rowData.put(md.getColumnName(i), result.getObject(i));
+                    }
+                    list.add(rowData);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }finally {
+                if(pst!=null){
+                    try {
+                        pst.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        return list;
+    }
+
 }

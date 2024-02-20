@@ -1,5 +1,6 @@
 package bs.reptile.database;
 
+import bs.common.*;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -14,27 +15,24 @@ import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.fill.Column;
 import com.baomidou.mybatisplus.generator.keywords.MySqlKeyWordsHandler;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class CodeGenerator {
-//    static bs.common.Config config=bs.common.Config.getCurrent();
+import java.io.File;
+import java.util.*;
+
+public class ComDbCodeGenerator {
     //region 常量
     //数据库链接地址**/
-    private static final String JDBC_URL_MAN = "jdbc:mysql://8.218.116.162:3306/reptile?useUnicode=true&characterEncoding=UTF-8";
+    static final String MYSQL_URL = ComCfg.get("mysql.url");
     //数据库登录账号**/
-    private static final String JDBC_UserName = "root";
+    static final String MYSQL_USER_NAME = ComCfg.get("mysql.username");
     //数据库登录密码**/
-    private static final String JDBC_Password = "7457322";
+    static final String MYSQL_PASSWORD = ComCfg.get("mysql.password");
     /**
      * 【需要修改】
      * 需要进行生成文件的表名
-     *          多张表，表名间使用,号分割
+     * 多张表，表名间使用,号分割
      **/
-    private static final String[] Tables = {"image"};
+    private static String[] Tables = null;
     /**
      * 【需要修改】
      * 生成类的注释
@@ -43,43 +41,42 @@ public class CodeGenerator {
     private static final String CODE_AUTHOR = "dyb";
     /**
      * 生成的文件存放地址 之
-     *      文件路径
+     * 文件路径
      */
-    private static final String FILE_STORAGE_FILE_ROOT_PATH = System.getProperty("user.dir") + "/bs-reptile-database/src/main/java";
+    static String FILE_STORAGE_FILE_ROOT_PATH = null;
     /**
-     *  生成的文件存放地址 之
-     *      父级 jar包路径
+     * 生成的文件存放地址 之
+     * 父级 jar包路径
      */
     private static final String FILE_STORAGE_FILE_JAR_PACKAGE = "bs.reptile";
     /**
-     *
-     *  生成的文件存放地址 之
-     *      模块 jar包名称
+     * 生成的文件存放地址 之
+     * 模块 jar包名称
      */
     private static final String FILE_STORAGE_FILE_JAR_PACKAGE_MODULE = "database";
     /**
-     *  生成的文件存放地址 之
-     *      Service 接口 存放地址
+     * 生成的文件存放地址 之
+     * Service 接口 存放地址
      */
     private static final String FILE_STORAGE_SERVICE_FILE_JAR_PACKAGE = "service";
     /**
-     *  生成的文件存放地址 之
-     *      Service impl 实现类 存放地址
+     * 生成的文件存放地址 之
+     * Service impl 实现类 存放地址
      */
     private static final String FILE_STORAGE_SERVICE_IMPL_FILE_JAR_PACKAGE = "impl";
     /**
-     *  生成的文件存放地址 之
-     *      entity  实体类 存放地址
+     * 生成的文件存放地址 之
+     * entity  实体类 存放地址
      */
     private static final String FILE_STORAGE_ENTITY_FILE_JAR_PACKAGE = "entity";
     /**
-     *  生成的文件存放地址 之
-     *      mapper  操作类 存放地址
+     * 生成的文件存放地址 之
+     * mapper  操作类 存放地址
      */
     private static final String FILE_STORAGE_MAPPER_FILE_JAR_PACKAGE = "mapper";
     /**
-     *  生成的文件存放地址 之
-     *      mapper  xml 文件 存放地址
+     * 生成的文件存放地址 之
+     * mapper  xml 文件 存放地址
      */
     private static final String FILE_STORAGE_MAPPER_XML_FILE_JAR_PACKAGE = "mapper";
     //endregion
@@ -87,13 +84,12 @@ public class CodeGenerator {
     /**
      * 配置基础转换器
      */
-    private static DataSourceConfig configDataSource(){
+    private static DataSourceConfig configDataSource() {
         //数据库链接配置
-        @SuppressWarnings("UnnecessaryLocalVariable")
-        DataSourceConfig dataSourceConfig=new DataSourceConfig.Builder(
-                JDBC_URL_MAN,
-                JDBC_UserName,
-                JDBC_Password
+        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder(
+                MYSQL_URL,
+                MYSQL_USER_NAME,
+                MYSQL_PASSWORD
         )
                 .dbQuery(new MySqlQuery())
                 //自定义转换器，将tinyint 转换为Integer
@@ -103,9 +99,11 @@ public class CodeGenerator {
 
         return dataSourceConfig;
     }
+
     /**
      * 自定义转换器转换器 内部类
-     *         目的将数据库表中定义的  tinyint 或 bit类型转变为 java Integer 类型
+     * 目的将数据库表中定义的  tinyint 或 bit类型转变为 java Integer 类型
+     *
      * @author timerbin
      */
     static class EasyMySqlTypeConvert extends MySqlTypeConvert {
@@ -229,9 +227,9 @@ public class CodeGenerator {
         @SuppressWarnings("UnnecessaryLocalVariable")
         TemplateConfig templateConfig = new TemplateConfig.Builder()
                 .disable(
-                    TemplateType.CONTROLLER,    //我不需要controller 此处传null
-                    TemplateType.SERVICE,       //我不需要service  此处传null
-                    TemplateType.SERVICE_IMPL   //我不需要service impl 此处传null
+                        TemplateType.CONTROLLER,    //我不需要controller 此处传null
+                        TemplateType.SERVICE,       //我不需要service  此处传null
+                        TemplateType.SERVICE_IMPL   //我不需要service impl 此处传null
                 )
                 .build();
         return templateConfig;
@@ -259,8 +257,34 @@ public class CodeGenerator {
                 .build();
     }
 
-    //初使化
-    public static void init() {
+    public static void output() {
+        output(null, null);
+    }
+
+    public static void output(String absoluteDir) {
+        output(absoluteDir, null);
+    }
+
+    public static void output(String[] TableNames) {
+        output(null, TableNames);
+    }
+
+    public static void output(String absoluteDir, String[] TableNames) {
+        if (ComStr.isEmpty(absoluteDir)) {
+            FILE_STORAGE_FILE_ROOT_PATH = ComCfg.getRunPath() + "Java";
+        } else {
+            FILE_STORAGE_FILE_ROOT_PATH = absoluteDir;
+        }
+        ComFile.createDir(FILE_STORAGE_FILE_ROOT_PATH);
+
+        if (TableNames == null || TableNames.length == 0) {
+            //读取当前数据库中所有表
+            List<Map<String, Object>> maps = ComDb.executeSql("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE()");
+            Tables = (String[]) maps.stream().map(t -> t.get("TABLE_NAME").toString()).toArray(String[]::new);
+        } else {
+            Tables = TableNames;
+        }
+
         //数据库信息配置
         DataSourceConfig dataSourceConfig = configDataSource();
         //生成工具类
@@ -285,4 +309,5 @@ public class CodeGenerator {
         //生成代码
         generator.execute(timerVelocityTemplateEngine);
     }
+
 }
