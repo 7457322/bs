@@ -1,0 +1,31 @@
+package ${package.Parent}.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * <p>
+ * $!{table.comment} 数据表 ${humpEentityName} 数据库表映射实体驼峰名称
+ *      基础设施层请求实体
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Getter
+@Setter
+public class ${entity}ReqDto implements Serializable {
+    #foreach($field in ${table.fields})
+        #if(${field.keyFlag})
+            #set($keyPropertyName=${field.propertyName})
+        #end
+        #if("$!field.comment" != "")
+            /**
+             * ${field.comment}
+             */
+        #end
+        private ${field.propertyType} ${field.propertyName};
+    #end
+}

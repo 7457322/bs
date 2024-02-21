@@ -20,30 +20,35 @@ import java.io.File;
 import java.util.*;
 
 public class ComDbCodeGenerator {
-    //region 常量
+    //region 属性
     //数据库链接地址**/
     static final String MYSQL_URL = ComCfg.get("mysql.url");
     //数据库登录账号**/
     static final String MYSQL_USER_NAME = ComCfg.get("mysql.username");
     //数据库登录密码**/
     static final String MYSQL_PASSWORD = ComCfg.get("mysql.password");
+    //是否生成自定义MapperXml模板
+    static boolean isGeneratorCustomTemplateMapperXml = true;
+    //是否生成自定义Dto模板
+    static boolean isGeneratorCustomTemplateDto = true;
+    static String Prefix = "bs";
     /**
      * 【需要修改】
      * 需要进行生成文件的表名
      * 多张表，表名间使用,号分割
      **/
-    private static String[] Tables = null;
+    static String[] Tables = null;
     /**
      * 【需要修改】
      * 生成类的注释
      * 作者名称
      */
-    private static final String CODE_AUTHOR = "dyb";
+    static String CODE_AUTHOR = "dyb";
     /**
      * 生成的文件存放地址 之
      * 文件路径
      */
-    static String FILE_STORAGE_FILE_ROOT_PATH = null;
+    static String OUTPUT_PATH = null;
     /**
      * 生成的文件存放地址 之
      * 父级 jar包路径
@@ -86,18 +91,16 @@ public class ComDbCodeGenerator {
      */
     private static DataSourceConfig configDataSource() {
         //数据库链接配置
-        DataSourceConfig dataSourceConfig = new DataSourceConfig.Builder(
+        DataSourceConfig.Builder builder = new DataSourceConfig.Builder(
                 MYSQL_URL,
                 MYSQL_USER_NAME,
                 MYSQL_PASSWORD
-        )
-                .dbQuery(new MySqlQuery())
+        );
+        builder.dbQuery(new MySqlQuery())
                 //自定义转换器，将tinyint 转换为Integer
                 .typeConvert(new EasyMySqlTypeConvert())
-                .keyWordsHandler(new MySqlKeyWordsHandler())
-                .build();
-
-        return dataSourceConfig;
+                .keyWordsHandler(new MySqlKeyWordsHandler());
+        return builder.build();
     }
 
     /**
@@ -128,7 +131,7 @@ public class ComDbCodeGenerator {
         GlobalConfig globalConfig = new GlobalConfig.Builder()
                 .disableOpenDir()
                 //存放生成文件的文件夹地址
-                .outputDir(FILE_STORAGE_FILE_ROOT_PATH)
+                .outputDir(OUTPUT_PATH)
                 .author(CODE_AUTHOR)
                 .dateType(DateType.ONLY_DATE)
                 .commentDate("yyyy-MM-dd hh:mm:ss")
@@ -169,6 +172,7 @@ public class ComDbCodeGenerator {
         @SuppressWarnings("UnnecessaryLocalVariable")
         StrategyConfig strategyConfig = new StrategyConfig.Builder()
                 .addInclude(Tables)
+                .addTablePrefix(Prefix)
                 .entityBuilder()//开始定制实体
                 //*禁用生成 serialVersionUID**/
                 // .disableSerialVersionUID()
@@ -221,93 +225,219 @@ public class ComDbCodeGenerator {
     }
 
     /**
-     * 设置其他模板
+     * 设置代码层系统模板配置
      */
-    private static TemplateConfig configTemplate() {
+    private static TemplateConfig configSystemTemplateCodes() {
+        TemplateConfig.Builder builder = new TemplateConfig.Builder();
+        builder.disable(
+                TemplateType.XML       //我不需要xml
+        );
+        return builder.build();
+    }
+
+    /**
+     * 设置资源层系统模板配置
+     */
+    private static TemplateConfig configSystemTemplateResources() {
+        TemplateConfig.Builder builder = new TemplateConfig.Builder();
+        if (isGeneratorCustomTemplateMapperXml) {
+            builder.disable();
+        } else {
+            builder.disable(
+                    TemplateType.CONTROLLER,    //我不需要controller
+                    TemplateType.SERVICE,       //我不需要service
+                    TemplateType.SERVICE_IMPL,   //我不需要service impl
+                    TemplateType.ENTITY,    //我不需要entity
+                    TemplateType.MAPPER     //我不需要mapper
+            );
+        }
+        return builder.build();
+    }
+
+    /**
+     * 设置业务层系统模板配置
+     */
+    private static TemplateConfig configSystemTemplateBusiness() {
+        TemplateConfig.Builder builder = new TemplateConfig.Builder();
+        builder.disable(
+                TemplateType.XML,       //我不需要xml
+                TemplateType.ENTITY,    //我不需要entity
+                TemplateType.MAPPER     //我不需要mapper
+        );
+        return builder.build();
+    }
+
+    /**
+     * 设置数据层系统模板配置
+     */
+    private static TemplateConfig configSystemTemplateDatabase() {
         @SuppressWarnings("UnnecessaryLocalVariable")
-        TemplateConfig templateConfig = new TemplateConfig.Builder()
-                .disable(
-                        TemplateType.CONTROLLER,    //我不需要controller 此处传null
-                        TemplateType.SERVICE,       //我不需要service  此处传null
-                        TemplateType.SERVICE_IMPL   //我不需要service impl 此处传null
-                )
-                .build();
-        return templateConfig;
+        TemplateConfig.Builder builder = new TemplateConfig.Builder();
+        builder.disable(
+                TemplateType.CONTROLLER,    //我不需要controller
+                TemplateType.SERVICE,       //我不需要service
+                TemplateType.XML,           //我不需要mapper.xml
+                TemplateType.SERVICE_IMPL   //我不需要service impl
+        );
+        return builder.build();
     }
 
     /**
      * 初使化配置
      */
-    private static InjectionConfig initInjectionConfig() {
-        //自定义生成模板参数**/
+    private static void initInjectionConfig(AutoGenerator ag, String outputPath) {
+        InjectionConfig.Builder builder = new InjectionConfig.Builder();
+        // 自定义 生成模板参数**/
         Map<String, Object> paramMap = new HashMap<>();
-
-        // 自定义 生成类**/
+        // 自定义 生成模板文件**/
         Map<String, String> customFileMap = new HashMap<>();
-        //PO实体**/
-        customFileMap.put("po" + File.separator + "%sPO.java", "/templates/PO.java.vm");
-        //Vo实体**/
-        customFileMap.put("vo" + File.separator + "%sVO.java", "/templates/VO.java.vm");
-        //DTO实体
-        customFileMap.put("dto" + File.separator + "%sDTO.java", "/templates/DTO.java.vm");
-
-        return new InjectionConfig.Builder()
-                .customMap(paramMap)
-                .customFile(customFileMap)
-                .build();
-    }
-
-    public static void output() {
-        output(null, null);
-    }
-
-    public static void output(String absoluteDir) {
-        output(absoluteDir, null);
-    }
-
-    public static void output(String[] TableNames) {
-        output(null, TableNames);
-    }
-
-    public static void output(String absoluteDir, String[] TableNames) {
-        if (ComStr.isEmpty(absoluteDir)) {
-            FILE_STORAGE_FILE_ROOT_PATH = ComCfg.getRunPath() + "Java";
-        } else {
-            FILE_STORAGE_FILE_ROOT_PATH = absoluteDir;
+        //自定义mapper
+        if (isGeneratorCustomTemplateMapperXml) {
+            customFileMap.put(outputPath + "mapper" + File.separator + "%smapper.xml", "/templates/mapper.xml.vm");
         }
-        ComFile.createDir(FILE_STORAGE_FILE_ROOT_PATH);
-
-        if (TableNames == null || TableNames.length == 0) {
-            //读取当前数据库中所有表
-            List<Map<String, Object>> maps = ComDb.executeSql("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE()");
-            Tables = (String[]) maps.stream().map(t -> t.get("TABLE_NAME").toString()).toArray(String[]::new);
-        } else {
-            Tables = TableNames;
+        //DTO数据类
+        if (isGeneratorCustomTemplateDto) {
+            customFileMap.put("dto" + File.separator + "%sResDto.java", "/templates/resDto.java.vm");
+            customFileMap.put("dto" + File.separator + "%sReqDto.java", "/templates/reqDto.java.vm");
         }
+        builder.customMap(paramMap).customFile(customFileMap);
+        InjectionConfig build = builder.build();
+        ag.injection(build);
+    }
 
+    /**
+     * 生成代码
+     */
+    static void generator(TemplateConfig templateConfig) {
         //数据库信息配置
         DataSourceConfig dataSourceConfig = configDataSource();
         //生成工具类
         AutoGenerator generator = new AutoGenerator(dataSourceConfig);
-        //全局变量配置
-        generator.global(configGlobel());
         //设置生成文件包名地址
         generator.packageInfo(configPackage());
-
         //生成文件的策略配置
         generator.strategy(configStratgy());
-
-        //生成的类的模板配置
-        generator.template(configTemplate());
-
-        //自定义实体信息
-        generator.injection(initInjectionConfig());
-
+        //生成自定义代码、模板、输出路径
+        initInjectionConfig(generator, OUTPUT_PATH);
         //自定义模板解析器
-        TimerVelocityTemplateEngine timerVelocityTemplateEngine = new TimerVelocityTemplateEngine();
-
+        CustomTemplateOutputEngine timerVelocityTemplateEngine = new CustomTemplateOutputEngine();
+        //全局变量配置
+        generator.global(configGlobel());
+        //生成的类的模板配置
+        generator.template(templateConfig);
         //生成代码
         generator.execute(timerVelocityTemplateEngine);
     }
 
+    /**
+     * 设置参数默认值
+     */
+    static void setParamsDefaultValues(String absoluteDir, String[] TableNames) {
+        if (ComStr.isEmpty(absoluteDir)) {
+            OUTPUT_PATH = ComCfg.getRunPath();
+        } else {
+            OUTPUT_PATH = ComStr.toStandardPath(absoluteDir);
+        }
+        ComFile.createDir(OUTPUT_PATH);
+
+        if (TableNames == null || TableNames.length == 0) {
+            //读取当前数据库中所有表
+            List<Map<String, Object>> maps = ComDb.executeSql("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE()");
+            Tables = maps.stream().map(t -> t.get("TABLE_NAME").toString()).toArray(String[]::new);
+        } else {
+            Tables = TableNames;
+        }
+    }
+
+    //设置忽略前缀
+    public static void setPrefix(String prefix) {
+        Prefix = prefix;
+    }
+
+    //输出所有文件
+    public static void output() {
+        output(null, null);
+    }
+
+    //输出所有文件
+    public static void output(String absoluteDir) {
+        output(absoluteDir, null);
+    }
+
+    //输出所有文件
+    public static void output(String[] TableNames) {
+        output(null, TableNames);
+    }
+
+    //输出所有文件
+    public static void output(String absoluteDir, String[] TableNames) {
+        setParamsDefaultValues(absoluteDir, TableNames);
+        String outputPath = OUTPUT_PATH;
+
+        isGeneratorCustomTemplateDto = true; // 是否生成自定义dto代码
+        isGeneratorCustomTemplateMapperXml = false; // 是否生成自定义xml代码
+        OUTPUT_PATH = outputPath + "java\\";
+        generator(configSystemTemplateCodes());
+
+        isGeneratorCustomTemplateDto = false; // 是否生成自定义dto代码
+        isGeneratorCustomTemplateMapperXml = true; // 是否生成自定义xml代码
+        OUTPUT_PATH = outputPath + "resources\\";
+        generator(configSystemTemplateResources());
+    }
+
+    //输出数据层文件MAPPER XML,ENTITY,MAPPER
+    public static void outputDatabase() {
+        outputDatabase(null, null);
+    }
+
+    //输出数据层文件MAPPER XML,ENTITY,MAPPER
+    public static void outputDatabase(String absoluteDir) {
+        outputDatabase(absoluteDir, null);
+    }
+
+    //输出数据层文件MAPPER XML,ENTITY,MAPPER
+    public static void outputDatabase(String[] TableNames) {
+        outputDatabase(null, TableNames);
+    }
+
+    //输出数据层文件MAPPER XML,ENTITY,MAPPER
+    public static void outputDatabase(String absoluteDir, String[] TableNames) {
+        setParamsDefaultValues(absoluteDir, TableNames);
+        String outputPath = OUTPUT_PATH;
+
+        isGeneratorCustomTemplateDto = false; // 是否生成自定义dto代码
+        isGeneratorCustomTemplateMapperXml = false; // 是否生成自定义xml代码
+        OUTPUT_PATH = outputPath + "java\\";
+        generator(configSystemTemplateDatabase());
+
+        isGeneratorCustomTemplateMapperXml = true; // 是否生成自定义xml代码
+        OUTPUT_PATH = outputPath + "resources\\";
+        generator(configSystemTemplateResources());
+    }
+
+    //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
+    public static void outputBusiness() {
+        outputBusiness(null, null);
+    }
+
+    //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
+    public static void outputBusiness(String absoluteDir) {
+        outputBusiness(absoluteDir, null);
+    }
+
+    //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
+    public static void outputBusiness(String[] TableNames) {
+        outputBusiness(null, TableNames);
+    }
+
+    //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
+    public static void outputBusiness(String absoluteDir, String[] TableNames) {
+        setParamsDefaultValues(absoluteDir, TableNames);
+        String outputPath = OUTPUT_PATH;
+
+        isGeneratorCustomTemplateDto = true; // 是否生成自定义dto代码
+        isGeneratorCustomTemplateMapperXml = false; // 是否生成自定义xml代码
+        OUTPUT_PATH = outputPath + "java\\";
+        generator(configSystemTemplateBusiness());
+    }
 }

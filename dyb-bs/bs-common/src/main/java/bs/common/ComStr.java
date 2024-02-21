@@ -25,10 +25,16 @@ public class ComStr {
     //endregion
 
     //region 转化
-    //转换成InputStream
+    //转换成 InputStream 对象
     public static InputStream toInputStream(String input) {
         InputStream stream = new ByteArrayInputStream(input.getBytes());
         return stream;
+    }
+    //转换成 标准路径 字符串（带\结尾）
+    public static String toStandardPath(String absoluteDir) {
+        String strEnd = absoluteDir.substring(absoluteDir.length() - 1);
+        if (strEnd == "\\" || strEnd == "/") return absoluteDir;
+        return absoluteDir + "\\";
     }
     //endregion
 

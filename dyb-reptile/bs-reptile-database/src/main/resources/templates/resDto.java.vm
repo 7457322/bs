@@ -1,4 +1,4 @@
-package ${package.Other}.po;
+package ${package.Parent}.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +16,8 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class ${entity}PO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class ${entity}ResDto implements Serializable {
     #foreach($field in ${table.fields})
-
     #if(${field.keyFlag})
         #set($keyPropertyName=${field.propertyName})
     #end
@@ -32,15 +28,4 @@ public class ${entity}PO implements Serializable {
     #end
     private ${field.propertyType} ${field.propertyName};
     #end
-
-    /**
-     * 当前页
-     */
-    private Integer page = 1;
-
-    /**
-     * 每页条数
-     */
-    private Integer pageSize = 20;
-
 }

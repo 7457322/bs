@@ -192,6 +192,7 @@ public class ComDb {
         }
     }
 
+    //执行原生Sql
     public static List<Map<String, Object>> executeSql(String sql){
         ComLog.info("执行查询sql:"+sql);
         List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();

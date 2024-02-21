@@ -10,21 +10,23 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 
-public class TimerVelocityTemplateEngine extends VelocityTemplateEngine {
+public class CustomTemplateOutputEngine extends VelocityTemplateEngine {
 
     @Override
     protected void outputCustomFile(List<CustomFile> customFiles, TableInfo tableInfo, Map<String, Object> objectMap) {
         //数据库表映射实体名称
         String entityName = tableInfo.getEntityName();
-
-        String pathParent = this.getPathInfo(OutputFile.parent);
-        //System.out.println(JsonUtils.toJSONString(tableInfo));
-
         //数据库表映射实体名称 驼峰命名法
         objectMap.put("humpEentityName", toLowerCaseFirstOne(entityName));
 
+        String pathParent = this.getPathInfo(OutputFile.parent);
         customFiles.forEach((file) -> {
-            String fileName = String.format(pathParent + File.separator + file.getFileName(), entityName);
+            String fileName,tempFileName = file.getFileName();
+            if(tempFileName.substring(1,3).equals(":\\")){
+                fileName = String.format(file.getFileName(), entityName);
+            }else{
+                fileName = String.format(pathParent + File.separator + file.getFileName(), entityName);
+            }
             this.outputFile(new File(fileName), objectMap, file.getTemplatePath(), true);
         });
     }

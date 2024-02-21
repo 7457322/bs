@@ -1,16 +1,12 @@
 import bs.common.ComCfg;
 import bs.common.ComDb;
 import bs.reptile.database.ComDbCodeGenerator;
-import bs.reptile.database.entity.Image;
-import bs.reptile.database.mapper.ImageMapper;
+import bs.reptile.database.entity.User;
+import bs.reptile.database.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.junit.Test;
 
-import java.io.File;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
 import java.util.List;
-import java.util.Map;
 
 public class database {
     @Test
@@ -19,24 +15,28 @@ public class database {
 //        System.out.println(ComCfg.getRunPath());
 
 
-            System.out.println(ComCfg.getRunPath());
+        System.out.println(ComCfg.getRunPath());
         assert true;
     }
 
     @Test
     public void test() {
         ComDb.run(session -> {
-//            ImageMapper mapper = session.getMapper(ImageMapper.class);
-//            QueryWrapper<Image> wrapper = new QueryWrapper<>();
-//            List<Image> images = mapper.selectList(wrapper);
-//            System.out.println(images);
+            UserMapper mapper = session.getMapper(UserMapper.class);
+            QueryWrapper<User> wrapper = new QueryWrapper<>();
+            List<User> images = mapper.selectList(wrapper);
+            System.out.println(images);
         });
         assert true;
     }
 
     @Test
     public void 生成mapper_dto() {
-        ComDbCodeGenerator.output(ComCfg.getCallPath().replaceFirst("[^\\\\]+\\\\$","")+"bs-reptile-database\\src\\main\\java");
+        String projectPath = ComCfg.getCallPath().replaceFirst("[^\\\\]+\\\\$", "")
+                + "bs-reptile-database\\src\\main\\";
+        projectPath="E:\\projects\\Tests\\Java\\MybitisCodes";
+        ComDbCodeGenerator
+                .outputDatabase(projectPath);
         assert true;
     }
 }
