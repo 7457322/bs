@@ -14,15 +14,13 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author dyb
- * @since 2024-02-21 03:21:38
+ * @since 2024-02-28 04:10:32
  */
 @Getter
 @Setter
-@Accessors(chain = true)
-@TableName("image")
+  @Accessors(chain = true)
+  @TableName("bs_image")
 public class Image extends Model<Image> {
-
-    private static final long serialVersionUID = 1L;
 
     @TableField("id")
     private Integer id;
@@ -30,10 +28,10 @@ public class Image extends Model<Image> {
     @TableField("`type`")
     private Integer type;
 
-    /**
+      /**
      * 名称
      */
-    @TableField("`name`")
+      @TableField("`name`")
     private String name;
 
     @TableField("remark")
@@ -41,6 +39,6 @@ public class Image extends Model<Image> {
 
     @Override
     public Serializable pkVal() {
-        return null;
-    }
+          return null;
+      }
 }

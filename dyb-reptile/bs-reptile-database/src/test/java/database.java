@@ -1,6 +1,7 @@
+import bs.ComDbCodeGenerator;
 import bs.common.ComCfg;
 import bs.common.ComDb;
-import bs.reptile.database.ComDbCodeGenerator;
+import bs.common.ComStr;
 import bs.reptile.database.entity.User;
 import bs.reptile.database.mapper.UserMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -13,8 +14,6 @@ public class database {
     public void testx() {
 //        List<Map<String, Object>> maps = ComDb.executeSql("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = DATABASE()");
 //        System.out.println(ComCfg.getRunPath());
-
-
         System.out.println(ComCfg.getRunPath());
         assert true;
     }
@@ -36,6 +35,7 @@ public class database {
                 + "bs-reptile-database\\src\\main\\";
         projectPath="E:\\projects\\Tests\\Java\\MybitisCodes";
         ComDbCodeGenerator
+                .setPrefix("bs")
                 .outputDatabase(projectPath);
         assert true;
     }

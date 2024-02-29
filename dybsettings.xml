@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-    
+
     <localRepository>f:\projects\maven\repository</localRepository>
 
     <pluginGroups>
@@ -99,7 +99,7 @@
                     rdc-snapshots::default::https://packages.aliyun.com/maven/repository/2337076-snapshot-6Mfi2f/
                 </altSnapshotDeploymentRepository>
             </properties>
-                        <repositories>
+            <repositories>
                 <repository>
                     <id>central</id>
                     <url>https://maven.aliyun.com/nexus/content/groups/public</url>

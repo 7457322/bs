@@ -14,6 +14,7 @@ public class ComStr {
     public static String readByInputStream(InputStream input) {
         return readByInputStream(input, StandardCharsets.UTF_8);
     }
+
     //读取来自输入流的文本
     public static String readByInputStream(InputStream input, Charset cs) {
         String text = new BufferedReader(
@@ -30,8 +31,15 @@ public class ComStr {
         InputStream stream = new ByteArrayInputStream(input.getBytes());
         return stream;
     }
-    //转换成 标准路径 字符串（带\结尾）
+
+    /**
+     * 转换成 标准路径 字符串（带\结尾）
+     *
+     * @param absoluteDir 文件夹绝对路径
+     * @return 标准文件夹绝对路径（带\结尾）
+     */
     public static String toStandardPath(String absoluteDir) {
+        if (isEmpty(absoluteDir)) return absoluteDir;
         String strEnd = absoluteDir.substring(absoluteDir.length() - 1);
         if (strEnd == "\\" || strEnd == "/") return absoluteDir;
         return absoluteDir + "\\";
@@ -43,6 +51,7 @@ public class ComStr {
     public static Boolean isNotEmpty(String input) {
         return !isEmpty(input);
     }
+
     //判断是否为空（null值表示为空）
     public static Boolean isEmpty(String input) {
         if (input == null) return true;

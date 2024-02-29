@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="28d1cd66-c08d-4549-9844-bc99f97f651c" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/dyb-bs/bs-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-bs/bs-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-bs/bs-common/src/main/java/bs/common/ComHttp.java" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-bs/bs-common/src/main/java/bs/common/ComHttp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-bs/bs-common/src/main/java/bs/common/ComXml.java" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-bs/bs-common/src/main/java/bs/common/ComXml.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-bs/bs-win/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-bs/bs-win/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-bs/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-bs/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-reptile/bs-reptile-baidu/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-reptile/bs-reptile-baidu/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-reptile/bs-reptile-baidu/src/main/java/bs/reptile/baidu/HttpClientTest.form" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-reptile/bs-reptile-baidu/src/main/java/bs/reptile/baidu/HttpClientTest.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dyb-reptile/bs-reptile-baidu/src/main/java/bs/reptile/baidu/HttpClientTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-reptile/bs-reptile-baidu/src/main/java/bs/reptile/baidu/HttpClientTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dyb-bs/bs-common/src/main/java/bs/common/ComStr.java" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-bs/bs-common/src/main/java/bs/common/ComStr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dyb-reptile/bs-reptile-database/src/main/java/bs/reptile/database/ComDbCodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-reptile/bs-reptile-database/src/main/java/bs/reptile/database/ComDbCodeGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dyb-reptile/bs-reptile-test/src/test/java/database.java" beforeDir="false" afterPath="$PROJECT_DIR$/dyb-reptile/bs-reptile-test/src/test/java/database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dybsettings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dybsettings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,6 +77,7 @@
       <workItem from="1703081648114" duration="1076000" />
       <workItem from="1706084380552" duration="882000" />
       <workItem from="1708219183112" duration="8000" />
+      <workItem from="1708910664865" duration="15000" />
     </task>
     <servers />
   </component>

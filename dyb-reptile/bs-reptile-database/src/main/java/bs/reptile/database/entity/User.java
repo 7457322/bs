@@ -17,57 +17,79 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author dyb
- * @since 2024-02-21 03:21:39
+ * @since 2024-02-28 04:10:32
  */
 @Getter
 @Setter
-@Accessors(chain = true)
-@TableName("t_user")
+  @Accessors(chain = true)
+  @TableName("bs_user")
 public class User extends Model<User> {
 
-    private static final long serialVersionUID = 1L;
-
-    /**
+      /**
      * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+        @TableId(value = "id", type = IdType.AUTO)
+      private Integer id;
 
-    /**
-     * 日期
+      /**
+     * 创建时间
      */
-    @TableField("create_time")
+      @TableField("create_time")
     private Date createTime;
 
-    @TableField("`description`")
+      /**
+     * 说明
+     */
+      @TableField("`description`")
     private String description;
 
-    @TableField("email")
+      /**
+     * 邮箱
+     */
+      @TableField("email")
     private String email;
 
-    @TableField("`enable`")
+      /**
+     * 1启用0禁用
+     */
+      @TableField("`enable`")
     private Boolean enable;
 
-    @TableField("`name`")
+      /**
+     * 名称
+     */
+      @TableField("`name`")
     private String name;
 
-    @TableField("`password`")
+      /**
+     * 密码
+     */
+      @TableField("`password`")
     private String password;
 
-    @TableField("pic")
+      /**
+     * 图片
+     */
+      @TableField("pic")
     private String pic;
 
     @TableField("salt")
     private String salt;
 
-    @TableField("update_time")
+      /**
+     * 更新时间
+     */
+      @TableField("update_time")
     private Date updateTime;
 
-    @TableField("username")
+      /**
+     * 用户名
+     */
+      @TableField("username")
     private String username;
 
     @Override
     public Serializable pkVal() {
-        return this.id;
-    }
+          return this.id;
+      }
 }

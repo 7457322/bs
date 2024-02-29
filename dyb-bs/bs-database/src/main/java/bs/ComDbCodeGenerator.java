@@ -1,4 +1,4 @@
-package bs.reptile.database;
+package bs;
 
 import bs.common.*;
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -21,6 +21,7 @@ import java.util.*;
 
 public class ComDbCodeGenerator {
     //region 属性
+    static final ComDbCodeGenerator Self = new ComDbCodeGenerator();
     //数据库链接地址**/
     static final String MYSQL_URL = ComCfg.get("mysql.url");
     //数据库登录账号**/
@@ -350,27 +351,28 @@ public class ComDbCodeGenerator {
     }
 
     //设置忽略前缀
-    public static void setPrefix(String prefix) {
+    public static ComDbCodeGenerator setPrefix(String prefix) {
         Prefix = prefix;
+        return Self;
     }
 
     //输出所有文件
-    public static void output() {
-        output(null, null);
+    public static ComDbCodeGenerator output() {
+        return output(null, null);
     }
 
     //输出所有文件
-    public static void output(String absoluteDir) {
-        output(absoluteDir, null);
+    public static ComDbCodeGenerator output(String absoluteDir) {
+        return output(absoluteDir, null);
     }
 
     //输出所有文件
-    public static void output(String[] TableNames) {
-        output(null, TableNames);
+    public static ComDbCodeGenerator output(String[] TableNames) {
+        return output(null, TableNames);
     }
 
     //输出所有文件
-    public static void output(String absoluteDir, String[] TableNames) {
+    public static ComDbCodeGenerator output(String absoluteDir, String[] TableNames) {
         setParamsDefaultValues(absoluteDir, TableNames);
         String outputPath = OUTPUT_PATH;
 
@@ -383,25 +385,27 @@ public class ComDbCodeGenerator {
         isGeneratorCustomTemplateMapperXml = true; // 是否生成自定义xml代码
         OUTPUT_PATH = outputPath + "resources\\";
         generator(configSystemTemplateResources());
+
+        return Self;
     }
 
     //输出数据层文件MAPPER XML,ENTITY,MAPPER
-    public static void outputDatabase() {
-        outputDatabase(null, null);
+    public static ComDbCodeGenerator outputDatabase() {
+        return outputDatabase(null, null);
     }
 
     //输出数据层文件MAPPER XML,ENTITY,MAPPER
-    public static void outputDatabase(String absoluteDir) {
-        outputDatabase(absoluteDir, null);
+    public static ComDbCodeGenerator outputDatabase(String absoluteDir) {
+        return outputDatabase(absoluteDir, null);
     }
 
     //输出数据层文件MAPPER XML,ENTITY,MAPPER
-    public static void outputDatabase(String[] TableNames) {
-        outputDatabase(null, TableNames);
+    public static ComDbCodeGenerator outputDatabase(String[] TableNames) {
+        return outputDatabase(null, TableNames);
     }
 
     //输出数据层文件MAPPER XML,ENTITY,MAPPER
-    public static void outputDatabase(String absoluteDir, String[] TableNames) {
+    public static ComDbCodeGenerator outputDatabase(String absoluteDir, String[] TableNames) {
         setParamsDefaultValues(absoluteDir, TableNames);
         String outputPath = OUTPUT_PATH;
 
@@ -413,25 +417,27 @@ public class ComDbCodeGenerator {
         isGeneratorCustomTemplateMapperXml = true; // 是否生成自定义xml代码
         OUTPUT_PATH = outputPath + "resources\\";
         generator(configSystemTemplateResources());
+
+        return Self;
     }
 
     //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
-    public static void outputBusiness() {
-        outputBusiness(null, null);
+    public static ComDbCodeGenerator outputBusiness() {
+        return outputBusiness(null, null);
     }
 
     //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
-    public static void outputBusiness(String absoluteDir) {
-        outputBusiness(absoluteDir, null);
+    public static ComDbCodeGenerator outputBusiness(String absoluteDir) {
+        return outputBusiness(absoluteDir, null);
     }
 
     //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
-    public static void outputBusiness(String[] TableNames) {
-        outputBusiness(null, TableNames);
+    public static ComDbCodeGenerator outputBusiness(String[] TableNames) {
+        return outputBusiness(null, TableNames);
     }
 
     //输出业务层文件CONTROLLER,SERVICE,SERVICE_IMPL
-    public static void outputBusiness(String absoluteDir, String[] TableNames) {
+    public static ComDbCodeGenerator outputBusiness(String absoluteDir, String[] TableNames) {
         setParamsDefaultValues(absoluteDir, TableNames);
         String outputPath = OUTPUT_PATH;
 
@@ -439,5 +445,7 @@ public class ComDbCodeGenerator {
         isGeneratorCustomTemplateMapperXml = false; // 是否生成自定义xml代码
         OUTPUT_PATH = outputPath + "java\\";
         generator(configSystemTemplateBusiness());
+
+        return Self;
     }
 }

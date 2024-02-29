@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 全局参数 -->
+    <settings>
+        <!-- 使全局的映射器启用或禁用缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 允许JDBC 支持自动生成主键 -->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!-- 配置默认的执行器.SIMPLE就是普通执行器;REUSE执行器会重用预处理语句(prepared statements);BATCH执行器将重用语句并执行批量更新 -->
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <!-- 指定 MyBatis 所用日志的具体实现 -->
+        <!--<setting name="logImpl" value="SLF4J"/>-->
+        <setting name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl"/>
+        <!-- 使用驼峰命名法转换字段 -->
+        <!-- <setting name="mapUnderscoreToCamelCase" value="true"/> -->
+        <!-- 使用驼峰命名法转换字段 -->
+        <setting name="callSettersOnNulls" value="true"/>
+    </settings>
+    <!-- 实体类定义别名 -->
+    <typeAliases>
+        <typeAlias alias="Image" type="bs.reptile.database.mapper.ImageMapper"/>
+    </typeAliases>
+    <!-- 配置环境参数 -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="${mysql.url}"/>
+                <property name="username" value="${mysql.username}"/>
+                <property name="password" value="${mysql.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- 方案1：类级别的指定 -->
+        <!--<mapper class="bs.reptile.database.mapper.ImageMapper"/>-->
+        <!-- 方案2：单独指定Mapper放置到resources中 -->
+        <!--<mapper resource="mybatis/mappings/UserModelMapper.xml"/>-->
+        <!-- 方案3：Mapper类所在的package包路径 -->
+        <package name="bs.reptile.database.mapper"/>
+    </mappers>
+</configuration>

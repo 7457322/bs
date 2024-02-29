@@ -1,10 +1,12 @@
+import bs.ComDbCodeGenerator;
 import bs.common.ComCfg;
-import bs.reptile.database.ComDbCodeGenerator;
 
 public class Main {
     public static void main(String[] args) {
-        String projectPath = ComCfg.getCallPath().replaceFirst("[^\\\\]+\\\\$", "")
+        String projectPath = ComCfg.getCallPath()//.replaceFirst("[^\\\\]+\\\\$", "")
                 + "bs-reptile-database\\src\\main\\";
-        ComDbCodeGenerator.outputDatabase(projectPath);
+        ComDbCodeGenerator
+                .setPrefix("bs")
+                .outputDatabase(projectPath);
     }
 }

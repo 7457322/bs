@@ -17,7 +17,6 @@
     <modules>
         <module>bs-reptile-baidu</module>
         <module>bs-reptile-database</module>
-        <module>bs-reptile-test</module>
     </modules>
 
     <build>

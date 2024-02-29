@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="bs.reptile.winform.MainWinForm">
+  <grid id="27dc6" binding="Main" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="688" height="519"/>
+    </constraints>
+    <properties>
+      <minimumSize width="500" height="500"/>
+      <preferredSize width="1000" height="600"/>
+    </properties>
+    <border type="none" title=""/>
+    <children>
+      <grid id="1ca0c" binding="bottom" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="3a6fb" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="ac7d4" class="javax.swing.JButton" binding="btn执行">
+                <constraints/>
+                <properties>
+                  <text value="执行"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="eb97e" binding="left" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="West"/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <grid id="415a1" binding="right" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="East"/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <grid id="7318c" binding="center" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="f98b8">
+            <constraints border-constraint="Center"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="f49da" class="javax.swing.JTextArea" binding="ta配置">
+                <constraints/>
+                <properties>
+                  <lineWrap value="true"/>
+                  <rows value="10"/>
+                  <text value="[&#10;&#9;{&#10;&#9;&#9;&quot;name&quot;:&quot;入口页&quot;,&#10;&#9;&#9;&quot;enable&quot;:true,&#10;&#9;&#9;&quot;url&quot;:&quot;https://www.baidu.com/s?wd=%E7%9C%8B%E4%B9%A6&quot;,&#10;&#9;&#9;&quot;itemSelect&quot;:&quot;#content_left&gt;div&quot;,&#10;&#9;&#9;&quot;fields&quot;:[&#10;&#9;&#9;&#9;{&#10;&#9;&#9;&#9;&#9;&quot;name&quot;: &quot;标题&quot;,&#10;&#9;&#9;&#9;&#9;&quot;dataName&quot;: &quot;title&quot;,&#10;&#9;&#9;&#9;&#9;&quot;attrName&quot;: &quot;text&quot;,&#10;&#9;&#9;&#9;&#9;&quot;cssSelect&quot;: &quot;h3:nth-of-type(1) a:nth-of-type(1)&quot;&#10;&#9;&#9;&#9;},&#10;&#9;&#9;&#9;{&#10;&#9;&#9;&#9;&#9;&quot;name&quot;: &quot;类型&quot;,&#10;&#9;&#9;&#9;&#9;&quot;dataName&quot;: &quot;type&quot;,&#10;&#9;&#9;&#9;&#9;&quot;attrName&quot;: &quot;class&quot;,&#10;&#9;&#9;&#9;&#9;&quot;cssSelect&quot;: &quot;&quot;&#10;&#9;&#9;&#9;},&#10;&#9;&#9;&#9;{&#10;&#9;&#9;&#9;&#9;&quot;name&quot;: &quot;链接&quot;,&#10;&#9;&#9;&#9;&#9;&quot;dataName&quot;: &quot;link&quot;,&#10;&#9;&#9;&#9;&#9;&quot;attrName&quot;: &quot;href&quot;,&#10;&#9;&#9;&#9;&#9;&quot;cssSelect&quot;: &quot;h3:nth-of-type(1) a:nth-of-type(1)&quot;&#10;&#9;&#9;&#9;}&#10;&#9;&#9;]&#10;&#9;}&#10;]" noi18n="true"/>
+                  <visible value="true"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

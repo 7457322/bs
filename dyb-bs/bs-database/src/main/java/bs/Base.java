@@ -1,11 +1,11 @@
-package bs.reptile.domain;
+package bs;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 @Data
-public class Base {
+public class  Base {
     /**
      * 介绍 编号
      **/

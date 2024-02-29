@@ -1,4 +1,4 @@
-package bs.reptile.database;
+package bs;
 
 import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;

@@ -1,6 +1,7 @@
 package bs.common;
 
 import bs.common.ComCfg;
+import bs.common.lambda.Action;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.sql.PreparedStatement;
@@ -193,10 +195,10 @@ public class ComDb {
     }
 
     //执行原生Sql
-    public static List<Map<String, Object>> executeSql(String sql){
-        ComLog.info("执行查询sql:"+sql);
-        List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
-        run(session->{
+    public static List<Map<String, Object>> executeSql(String sql) {
+        ComLog.info("执行查询sql:" + sql);
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        run(session -> {
             PreparedStatement pst = null;
             ResultSet result = null;
             try {
@@ -205,7 +207,7 @@ public class ComDb {
                 ResultSetMetaData md = result.getMetaData(); //获得结果集结构信息,元数据
                 int columnCount = md.getColumnCount();   //获得列数
                 while (result.next()) {
-                    Map<String,Object> rowData = new HashMap<String,Object>();
+                    Map<String, Object> rowData = new HashMap<String, Object>();
                     for (int i = 1; i <= columnCount; i++) {
                         rowData.put(md.getColumnName(i), result.getObject(i));
                     }
@@ -213,8 +215,8 @@ public class ComDb {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-            }finally {
-                if(pst!=null){
+            } finally {
+                if (pst != null) {
                     try {
                         pst.close();
                     } catch (SQLException e) {
