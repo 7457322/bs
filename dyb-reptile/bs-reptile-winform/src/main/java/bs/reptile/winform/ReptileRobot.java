@@ -11,8 +11,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * 爬虫机器人
@@ -79,7 +77,7 @@ public class ReptileRobot {
         List<Map<String, String>> maps = new ArrayList<>();
         //解析Url参数
         String urlTemplate = config.getUrl();
-        ArrayList<ReptileUrlExpression> urlExpressions = getUrlFields(urlTemplate, "parent.");
+        ArrayList<ReptileExpression> urlExpressions =ExpressionProcess.parseTemplate(urlTemplate, "parent.");
         //不存在表达式时，直接执行并返回
         if (urlExpressions.size() == 0) {
             maps.addAll(execute(config, urlTemplate));
@@ -107,8 +105,8 @@ public class ReptileRobot {
         ComMap.eachCall(resultMap, path -> {
             List<String> urls = new ArrayList<>();
             urls.add(urlTemplate);
-            for (ReptileUrlExpression ue : urlExpressions) {
-                List<ReptileUrlField> fields = ue.getFields();
+            for (ReptileExpression ue : urlExpressions) {
+                List<ReptileExpressionField> fields = ue.getFields();
                 switch (fields.size()) {
                     case 1:
                         String val = getUrlFieldValue(path, fields.get(0));
@@ -118,8 +116,8 @@ public class ReptileRobot {
                         }
                         break;
                     case 2:
-                        ReptileUrlField ufMin = fields.get(0);
-                        ReptileUrlField ufMax = fields.get(1);
+                        ReptileExpressionField ufMin = fields.get(0);
+                        ReptileExpressionField ufMax = fields.get(1);
                         String minStr = getUrlFieldValue(path, ufMin);
                         String maxStr = getUrlFieldValue(path, ufMax);
                         Integer min = Integer.parseInt(ComStr.isEmpty(minStr) ? ufMin.getName() : minStr);
@@ -144,65 +142,13 @@ public class ReptileRobot {
 
 
     //读取Url字段值
-    String getUrlFieldValue(Map<String, Map<String, String>> path, ReptileUrlField field) {
+    String getUrlFieldValue(Map<String, Map<String, String>> path, ReptileExpressionField field) {
         Map<String, String> info = path.get(field.getParent());
         if (info == null) return "";
         String val = info.get(field.getName());
         if (val == null) return "";
         return val;
     }
-
-
-    /**
-     * 读取模板中的所有表达式
-     *
-     * @param urlTemplate 模板
-     * @param defPrefix   默认前端
-     * @return 已解析的表达式
-     */
-    ArrayList<ReptileUrlExpression> getUrlFields(String urlTemplate, String defPrefix) {
-        Matcher matcher = regUrlField.matcher(urlTemplate);
-        ArrayList<ReptileUrlExpression> ues = new ArrayList<>();
-        HashSet<String> mapSearchStr = new HashSet<>();
-
-        //循环所有模板字段
-        while (matcher.find()) {
-            ReptileUrlExpression ue = new ReptileUrlExpression();
-            //原匹配字符串
-            String match = matcher.group(1);
-            //去重相同的表达式
-            if (mapSearchStr.contains(match)) continue;
-            else mapSearchStr.add(match);
-            ue.setSearch("${" + match + "}");
-            //匹配字段列表
-            ArrayList<ReptileUrlField> ufs = new ArrayList<>();
-            String[] fields = match.split(",");//字段
-            for (int i = 0; i < fields.length; i++) {
-                String field = fields[i];
-                String[] fns = field.split("\\.");
-                int len = fns.length, level = len - 1;
-                String name = fns[len - 1], parent;
-                if (len < 2) {
-                    parent = defPrefix;
-                    level = 1;
-                } else {
-                    parent = field.replace("." + name, "") + ".";
-                }
-                //保存
-                ReptileUrlField uf = new ReptileUrlField();
-                uf.setParent(parent);
-                uf.setName(name);
-                uf.setLevel(level);
-                ufs.add(uf);
-            }
-            ue.setFields(ufs);
-            ues.add(ue);
-        }
-        return ues;
-    }
-
-    Pattern regUrlField = Pattern.compile("\\$\\{([^}]+)\\}");
-
 
     List<Map<String, String>> execute(ReptileConfig config, String url) {
         List<Map<String, String>> maps = new ArrayList<>();
