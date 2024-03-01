@@ -14,20 +14,37 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * 爬虫机器人
+ *
+ * @author 冰鼠
+ * @version 1.0.1
+ * @date 2024/3/1 13:43
+ * @package bs.reptile.winform
+ * @copyright 冰鼠
+ */
 @Data
 public class ReptileRobot {
-    //根配置
+    /**
+     * 根配置
+     */
     ReptileRootConfig rootConfig = null;
     //缓存数据
     Map<String, Integer> reptileKeys = new HashMap<>();
 
-    //加载配置信息
+    /**
+     * 加载配置信息
+     *
+     * @param rootConfigJson
+     */
     public void loadConfigs(String rootConfigJson) {
         if (ComStr.isEmpty(rootConfigJson)) return;
         rootConfig = JSON.parseObject(rootConfigJson, ReptileRootConfig.class);
     }
 
-    //执行抓取
+    /**
+     * 执行爬虫
+     */
     public void execute() {
         if (rootConfig == null) {
             ComLog.info("执行前请先加载配置信息");
@@ -36,6 +53,12 @@ public class ReptileRobot {
         execute(rootConfig.getConfigs(), null);
     }
 
+    /**
+     * 执行爬虫，递归执行配置树
+     *
+     * @param configs 配置列表
+     * @param parent  父配置
+     */
     void execute(List<ReptileConfig> configs, ReptileConfig parent) {
         for (ReptileConfig cfg : configs) {
             if (parent != null) cfg.setParent(parent);//设置父级
@@ -45,13 +68,18 @@ public class ReptileRobot {
         }
     }
 
-    //执行抓取，解析url参数模板
+    /**
+     * 执行爬虫，执行单个配置
+     *
+     * @param config
+     * @return
+     */
     List<Map<String, String>> execute(ReptileConfig config) {
         //返回结果
         List<Map<String, String>> maps = new ArrayList<>();
         //解析Url参数
         String urlTemplate = config.getUrl();
-        ArrayList<ReptileUrlExpression> urlExpressions = getUrlFields(urlTemplate);
+        ArrayList<ReptileUrlExpression> urlExpressions = getUrlFields(urlTemplate, "parent.");
         //不存在表达式时，直接执行并返回
         if (urlExpressions.size() == 0) {
             maps.addAll(execute(config, urlTemplate));
@@ -64,7 +92,7 @@ public class ReptileRobot {
                 hsi.add(x.getLevel());
             });
         });
-        //读取各层结果集
+        //读取各层配置的结果集
         Map<String, List<Map<String, String>>> resultMap = new HashMap<>();
         for (Integer level : hsi.stream().sorted().toArray(Integer[]::new)) {
             ReptileConfig parent = config;
@@ -75,7 +103,7 @@ public class ReptileRobot {
             }
             resultMap.put(sb.toString(), parent.getResult());
         }
-        //循环执行
+        //循环执行组合url
         ComMap.eachCall(resultMap, path -> {
             List<String> urls = new ArrayList<>();
             urls.add(urlTemplate);
@@ -114,6 +142,7 @@ public class ReptileRobot {
         return maps;
     }
 
+
     //读取Url字段值
     String getUrlFieldValue(Map<String, Map<String, String>> path, ReptileUrlField field) {
         Map<String, String> info = path.get(field.getParent());
@@ -124,16 +153,26 @@ public class ReptileRobot {
     }
 
 
-    //读取所有url模板中的表达式
-    ArrayList<ReptileUrlExpression> getUrlFields(String urlTemplate) {
+    /**
+     * 读取模板中的所有表达式
+     *
+     * @param urlTemplate 模板
+     * @param defPrefix   默认前端
+     * @return 已解析的表达式
+     */
+    ArrayList<ReptileUrlExpression> getUrlFields(String urlTemplate, String defPrefix) {
         Matcher matcher = regUrlField.matcher(urlTemplate);
         ArrayList<ReptileUrlExpression> ues = new ArrayList<>();
+        HashSet<String> mapSearchStr = new HashSet<>();
 
         //循环所有模板字段
         while (matcher.find()) {
             ReptileUrlExpression ue = new ReptileUrlExpression();
             //原匹配字符串
             String match = matcher.group(1);
+            //去重相同的表达式
+            if (mapSearchStr.contains(match)) continue;
+            else mapSearchStr.add(match);
             ue.setSearch("${" + match + "}");
             //匹配字段列表
             ArrayList<ReptileUrlField> ufs = new ArrayList<>();
@@ -144,7 +183,7 @@ public class ReptileRobot {
                 int len = fns.length, level = len - 1;
                 String name = fns[len - 1], parent;
                 if (len < 2) {
-                    parent = "parent.";
+                    parent = defPrefix;
                     level = 1;
                 } else {
                     parent = field.replace("." + name, "") + ".";

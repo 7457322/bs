@@ -15,7 +15,7 @@
     <version>1.0.0</version>
 
     <modules>
-        <module>bs-reptile-baidu</module>
+        <module>bs-reptile-winform</module>
         <module>bs-reptile-database</module>
     </modules>
 

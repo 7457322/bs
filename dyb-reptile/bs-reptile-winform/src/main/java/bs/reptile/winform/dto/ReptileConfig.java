@@ -6,6 +6,14 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 爬虫配置
+ * @author 冰鼠
+ * @date 2024/3/1 13:43
+ * @version 1.0.1
+ * @package bs.reptile.winform.dto
+ * @copyright 冰鼠
+ */
 @Data
 public class ReptileConfig {
     //名称
