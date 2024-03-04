@@ -11,6 +11,8 @@ public class ReptileField {
     private String name;
     //字段说明
     private String remark;
+    //值(父字段或当前抓取属性，为空则使用select属性读取)
+    private String value;
     //CSS选择器(默认根对象)
     private String select;
     //对象属性名称(默认为text)

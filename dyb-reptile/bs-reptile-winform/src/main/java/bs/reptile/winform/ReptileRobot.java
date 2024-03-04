@@ -152,7 +152,6 @@ public class ReptileRobot {
 
     List<Map<String, String>> execute(ReptileConfig config, String url) {
         List<Map<String, String>> maps = new ArrayList<>();
-        if (!config.isSave()) return maps;
         try {
             String html = ComHttp.request(url, config.getMethod(), config.getParams());
             Document htmDom = ComHtml.Load(html);

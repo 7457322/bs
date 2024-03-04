@@ -8,9 +8,10 @@ import java.util.Map;
 
 /**
  * 爬虫配置
+ *
  * @author 冰鼠
- * @date 2024/3/1 13:43
  * @version 1.0.1
+ * @date 2024/3/1 13:43
  * @package bs.reptile.winform.dto
  * @copyright 冰鼠
  */
@@ -26,9 +27,9 @@ public class ReptileConfig {
     // 生成网址集合，第1个字段名称为起始数值，第2个字段名称为结束数值：${字段名称,字段名称}
     private String url;
     //请求方式：get/post/put/delete
-    private String method;
+    private String method = "get";
     //结果类型：html/xml/json
-    private String resultType;
+    private String resultType = "html";
     //提交参数
     private String params;
     //列表项选择器

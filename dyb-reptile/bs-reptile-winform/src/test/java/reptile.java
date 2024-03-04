@@ -1,26 +1,26 @@
-import bs.common.ComDb;
 import bs.common.ComLog;
-import bs.reptile.database.entity.Reptile;
-import bs.reptile.database.mapper.ReptileMapper;
-import bs.reptile.winform.dto.ReptileConfig;
-import com.alibaba.fastjson.JSON;
+import bs.common.ComStr;
+import bs.reptile.winform.ExpressionProcess;
 import org.junit.Test;
 
 import java.io.File;
 import java.net.URI;
-import java.sql.Array;
-import java.util.*;
 
-import static org.junit.Assert.*;
-
-public class baidu {
-
-
+public class reptile {
     @Test
-    public Integer test(Integer aa) {
-        return 1;
-    }
+    public void test() {
+        int a=0;
+        a=1;
+        System.out.println("########################");
+        System.out.println(a);
 
+        String replace = ComStr.replace("\\$\\{([^}]+)\\}", "${parent.link}#${1,2}", t ->
+        {
+            ComLog.debug(t.group(1));
+            return "$$$";
+        });
+        ComLog.debug(replace);
+    }
 
     @Test
     public void testPath_Url() {

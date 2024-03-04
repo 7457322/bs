@@ -1,12 +1,15 @@
 package bs.reptile.winform;
 
+import bs.common.ComMap;
 import bs.common.ComStr;
+import bs.common.lambda.Func;
 import bs.reptile.winform.dto.*;
 import lombok.Data;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * 表达式处理
@@ -23,41 +26,12 @@ public class ExpressionProcess {
      * 解析模板中的所有表达式
      *
      * @param urlTemplate 模板
-     * @param defPrefix   默认前端
      * @return 已解析的表达式
      */
-    public static ArrayList<Map<String, String>> readValues(List<ReptileExpression> expressions, Map<String, Map<String, String>> context) {
-        ArrayList<Map<String, String>> mapValues=new ArrayList<>();
-        List<String> urls = new ArrayList<>();
-        urls.add(urlTemplate);
-        for (ReptileExpression ue : expressions) {
-            List<ReptileExpressionField> fields = ue.getFields();
-            switch (fields.size()) {
-                case 1:
-                    String val = getUrlFieldValue(context, fields.get(0));
-                    for (Integer i = 0; i < urls.size(); i++) {
-                        String url = urls.get(i);
-                        urls.set(i, url.replace(ue.getSearch(), val));
-                    }
-                    break;
-                case 2:
-                    ReptileExpressionField ufMin = fields.get(0);
-                    ReptileExpressionField ufMax = fields.get(1);
-                    String minStr = getUrlFieldValue(path, ufMin);
-                    String maxStr = getUrlFieldValue(path, ufMax);
-                    Integer min = Integer.parseInt(ComStr.isEmpty(minStr) ? ufMin.getName() : minStr);
-                    Integer max = Integer.parseInt(ComStr.isEmpty(minStr) ? ufMax.getName() : maxStr);
-                    Integer lenFor = urls.size();
-                    for (Integer i = 0; i < lenFor; i++) {
-                        String url = urls.get(i);
-                        urls.set(i, url.replace(ue.getSearch(), min.toString()));
-                        for (Integer j = min + 1; j <= max; j++) {
-                            urls.add(url.replace(ue.getSearch(), j.toString()));
-                        }
-                    }
-                    break;
-            }
-        }
+    public static List<String> readValues(String urlTemplate, List<ReptileExpression> expressions, Map<String, Map<String, String>> context) {
+        List<Map<String, String>> mapValues = readValues(expressions, context);
+        List<String> results = replaceTemplate(urlTemplate, mapValues);
+        return results;
     }
 
     //读取Url字段值
@@ -69,11 +43,60 @@ public class ExpressionProcess {
         return val;
     }
 
+    public static List<Map<String, String>> readValues(List<ReptileExpression> expressions, Map<String, Map<String, String>> context) {
+        List<Map<String, String>> results = new ArrayList<>();
+        results.add(new HashMap<>());
+        for (ReptileExpression ue : expressions) {
+            List<ReptileExpressionField> fields = ue.getFields();
+            Integer lenFor = results.size();
+            switch (fields.size()) {
+                case 1:
+                    String val = getUrlFieldValue(context, fields.get(0));
+                    for (Integer i = 0; i < lenFor; i++) {
+                        Map<String, String> result = results.get(i);
+                        result.put(ue.getSearch(), val);
+                    }
+                    break;
+                case 2:
+                    ReptileExpressionField ufMin = fields.get(0);
+                    ReptileExpressionField ufMax = fields.get(1);
+                    String minStr = getUrlFieldValue(context, ufMin);
+                    String maxStr = getUrlFieldValue(context, ufMax);
+                    Integer min = Integer.parseInt(ComStr.isEmpty(minStr) ? ufMin.getName() : minStr);
+                    Integer max = Integer.parseInt(ComStr.isEmpty(minStr) ? ufMax.getName() : maxStr);
+                    for (Integer i = 0; i < lenFor; i++) {
+                        Map<String, String> result = results.get(i);
+                        result.put(ue.getSearch(), min.toString());
+                        for (Integer j = min + 1; j <= max; j++) {
+                            Map<String, String> copyMap = ComMap.copy(result);
+                            results.add(copyMap);
+                        }
+                    }
+                    break;
+            }
+        }
+        return results;
+    }
+
+    /**
+     * 替换带表达式的模板
+     * @param template 模板字符串
+     * @param listContext 上下文列表（字典列表）
+     * @return 替换结果
+     */
+    static List<String> replaceTemplate(String template, List<Map<String, String>> listContext) {
+        Matcher matcher = regUrlField.matcher(template);
+        List<String> rsts = listContext.stream()
+                .map(x -> ComStr.replace(matcher, template, t -> x.get(t.group(0))))
+                .collect(Collectors.toList());
+        return rsts;
+    }
+
     /**
      * 解析模板中的所有表达式
      *
      * @param urlTemplate 模板
-     * @param defPrefix   默认前端
+     * @param defPrefix   默认前缀(默认的对象)
      * @return 已解析的表达式
      */
     public static ArrayList<ReptileExpression> parseTemplate(String urlTemplate, String defPrefix) {
@@ -87,6 +110,8 @@ public class ExpressionProcess {
         ArrayList<ReptileExpression> expressions = parseList(ues, defPrefix);
         return expressions;
     }
+
+
 
     static Pattern regUrlField = Pattern.compile("\\$\\{([^}]+)\\}");
 
