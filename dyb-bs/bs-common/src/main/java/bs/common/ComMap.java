@@ -33,10 +33,40 @@ public class ComMap {
         return obj;
     }
 
-    //转换成Json字符串
     public static String toJson(Map map) {
 //        if (map == null) return "";
         return JSONObject.toJSONString(map);
+    }
+    //endregion
+
+    //region 复制
+
+    /**
+     * 浅度复制对象
+     *
+     * @param map 原map对象
+     * @param <T> Key类型
+     * @param <V> Value类型
+     * @return 新map对象
+     */
+    public static <T, V> Map<T, V> copy(Map<T, V> map) {
+        Map<T, V> rst = new HashMap<>();
+        map.forEach((k, v) -> rst.put(k, v));
+        return rst;
+    }
+
+    /**
+     * 深度复制对象
+     *
+     * @param map 原map对象
+     * @param <T> Key类型
+     * @param <V> Value类型
+     * @return 新map对象
+     */
+    public static <T, V> Map<T, V> copyAll(Map<T, V> map) {
+        Map<T, V> rst = new HashMap<>();
+        rst.putAll(map);
+        return rst;
     }
     //endregion
 
