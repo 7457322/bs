@@ -1,5 +1,6 @@
 package bs.common;
 
+import bs.common.lambda.Action;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.BufferedReader;
@@ -90,7 +91,7 @@ public class ComMap {
     // 集合：a[1,2],b[3,4],c[5,6]
     // 调用总次数：a.数量*b.数量*c.数量
     // 函数接收参数分别{a=1,b=3,c=5}、{a=1,b=3,c=6}、{a=1,b=4,c=5}....{a=2,b=4,c=6}
-    public static <T> void eachCall(Map<String, List<T>> map, bs.common.lambda.Action<Map<String, T>> fn) {
+    public static <T> void eachCall(Map<String, List<T>> map, Action<Map<String, T>> fn) {
         if (map == null || map.size() == 0) return;
         List<String> keys = new ArrayList<>();
         List<List<T>> vals = new ArrayList<>();
@@ -101,11 +102,11 @@ public class ComMap {
             keys.add(key);
             vals.add(map.get(key));
         }
-        eachCall(map, keys, vals, fn, path);
+        eachCall(keys, vals, fn, path);
     }
 
     //多个数据集元素组合调用递归
-    static <T> void eachCall(Map<String, List<T>> map, List<String> keys, List<List<T>> vals, bs.common.lambda.Action<Map<String, T>> fn, Map<String, T> path) {
+    static <T> void eachCall(List<String> keys, List<List<T>> vals, bs.common.lambda.Action<Map<String, T>> fn, Map<String, T> path) {
         int level = path.size(), maxLevel = vals.size();
         if (level + 1 >= maxLevel) {
             String key = keys.get(level);
@@ -120,7 +121,7 @@ public class ComMap {
             List<T> value = vals.get(level);
             for (T v : value) {
                 path.put(key, v);
-                eachCall(map, keys, vals, fn, path);
+                eachCall(keys, vals, fn, path);
                 path.remove(key);
             }
         }

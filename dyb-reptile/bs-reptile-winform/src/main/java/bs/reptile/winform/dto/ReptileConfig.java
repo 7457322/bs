@@ -36,12 +36,16 @@ public class ReptileConfig {
     private String select;
     //字段列表
     private List<ReptileField> fields;
-    //抓取结果
-    private List<Map<String, String>> result;
     //子配置列表
     private List<ReptileConfig> configs;
-    //父级
+    //父级(初使化产生)
     private ReptileConfig parent;
+    //解析字段列表(初使化产生)
+    private List<ReptileField> parseFields;
+    //继承字段列表(初使化产生)
+    private List<ReptileField> inheritFields;
+    //抓取结果(初使化产生)
+    private List<Map<String, String>> result;
 
     //构造函数
     public ReptileConfig() {
