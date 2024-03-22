@@ -28,6 +28,7 @@ public class MainWinForm {
 
     public void execute() {
         reptile.loadConfigs(ta配置.getText());
+        reptile.initConfigs();
         reptile.loadCache();
         reptile.execute();
         reptile.save();

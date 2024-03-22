@@ -57,7 +57,7 @@ public class HtmlProcess {
             for (Element emt : elements) {
                 Map<String, String> fieldmap = new HashMap<>();
                 ComLog.debug("#列表项#######################################################\n");
-                for (ReptileField field : config.getParseFields()) {
+                for (ReptileField field : config.getSelectFields()) {
                     Element select;
                     if (ComStr.isEmpty(field.getSelect())) {
                         select = emt;

@@ -3,6 +3,7 @@ package bs.reptile.winform.dto;
 import bs.common.ComStr;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,9 @@ import java.util.Map;
 public class ReptileConfig {
     //名称
     private String name;
-    //是否将结果保存
+    //是否已经初使化
+    private boolean isInit;
+    //是否需要保存结果
     private boolean isSave;
     //请求网址：
     // 读取父结果字段：${parent.字段名称}或${字段名称}
@@ -40,10 +43,22 @@ public class ReptileConfig {
     private List<ReptileConfig> configs;
     //父级(初使化产生)
     private ReptileConfig parent;
-    //解析字段列表(初使化产生)
-    private List<ReptileField> parseFields;
-    //继承字段列表(初使化产生)
-    private List<ReptileField> inheritFields;
+    //url表达式(初使化产生)
+    private List<ReptileExpression> urlExpressions;
+    //url使用到的父层级数列表(初使化产生)
+    private HashSet<Integer> urlLevels;
+    //常量字段列表(初使化产生)
+    private List<ReptileField> constFields;
+    //Url字段列表(初使化产生)
+    private List<ReptileField> selectFields;
+    //Url字段列表(初使化产生)
+    private List<ReptileField> urlFields;
+    //非Url字段列表(初使化产生)
+    private List<ReptileField> unUrlFields;
+    //Url字段表达式列表(初使化产生)
+    private List<ReptileExpression> urlFieldExpressions;
+    //非Url字段表达式列表(初使化产生)
+    private List<ReptileExpression> unUrlFieldExpressions;
     //抓取结果(初使化产生)
     private List<Map<String, String>> result;
 

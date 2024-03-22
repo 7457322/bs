@@ -2,6 +2,7 @@ package bs.reptile.winform;
 
 import bs.common.ComMap;
 import bs.common.ComStr;
+import bs.common.lambda.Func;
 import bs.reptile.winform.dto.*;
 import lombok.Data;
 
@@ -35,13 +36,14 @@ public class ExpressionProcess {
 
     /**
      * 读取所有表达式对应值（一般情况下只会产生一条，但有些表达式可能会产生多条记录，所以返回结果是列表）
+     *
      * @param expressions
      * @param context
      * @return 多条 所有表达式对应值
      */
     public static List<Map<String, String>> readValues(List<ReptileExpression> expressions, Map<String, Map<String, String>> context) {
         List<Map<String, String>> results = new ArrayList<>();
-        results.add(new HashMap<>());
+        results.add(new HashMap<>());//默认返回1条结果
         for (ReptileExpression ue : expressions) {
             List<ReptileExpressionField> fields = ue.getFields();
             Integer lenFor = results.size();
@@ -54,6 +56,7 @@ public class ExpressionProcess {
                     }
                     break;
                 case 2:
+                    //分页数量，会生成多条结果
                     ReptileExpressionField ufMin = fields.get(0);
                     ReptileExpressionField ufMax = fields.get(1);
                     String minStr = getFieldValue(context, ufMin);
@@ -65,6 +68,7 @@ public class ExpressionProcess {
                         result.put(ue.getSearch(), min.toString());
                         for (Integer j = min + 1; j <= max; j++) {
                             Map<String, String> copyMap = ComMap.copy(result);
+                            copyMap.put(ue.getSearch(), j.toString());
                             results.add(copyMap);
                         }
                     }
@@ -156,7 +160,7 @@ public class ExpressionProcess {
     }
 
     /**
-     * 解析单个表达式
+     * 解析单个表达式，特殊地方：defPrefix=“parent.”时，默认层级为1，否则为0
      *
      * @param expression 表达式
      * @param defPrefix  默认前缀
